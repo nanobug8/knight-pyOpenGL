@@ -1,0 +1,8 @@
+Este código está escrito en python. Utilizando la versión 3.7
+
+Las librerías necesarias para poder ejecutarlo se instalarán ejecutando los siguientes comandos.
+
+pip install pyOpenGl 
+pip install pygame
+pip install numpy
+pip install Pillow

@@ -11,7 +11,7 @@ from objloader_textures import *
 
 
 
-filename = 'C:/Users/Usuario/Documents/Compgra/V2/knight_texturas.obj'
+filename = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_texturas.obj'
 pygame.init()
 viewport = (800,600)
 hx = viewport[0]/2
@@ -21,7 +21,7 @@ srf = pygame.display.set_mode(viewport, OPENGL | DOUBLEBUF)
 
 glEnable(GL_TEXTURE_2D)
 
-texID =  ReadTexture('C:/Users/Usuario/Documents/Compgra/V2/knight.png')
+texID =  ReadTexture('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight.png')
 
 glLightfv(GL_LIGHT0, GL_POSITION,  (-40, 200, 100, 0.0))
 glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
