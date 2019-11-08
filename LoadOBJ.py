@@ -1,4 +1,4 @@
-
+import time
 import sys, pygame
 from pygame.locals import *
 from pygame.constants import *
@@ -9,9 +9,19 @@ from OpenGL.GLU import *
 from objloader_textures import *
 
 
+attack0 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_0.obj'
+attack1 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_1.obj'
+attack2 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_2.obj'
+attack3 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_3.obj'
+attack4 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_4.obj'
+attack5 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_5.obj'
+attack6 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_6.obj'
+attack7 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_7.obj'
+
+box =  'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/box_texturas.obj'
 
 
-filename = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_texturas.obj'
+
 pygame.init()
 viewport = (800,600)
 hx = viewport[0]/2
@@ -23,6 +33,9 @@ glEnable(GL_TEXTURE_2D)
 
 texID =  ReadTexture('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight.png')
 
+boxTexID =  ReadTexture('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/box.png')
+
+
 glLightfv(GL_LIGHT0, GL_POSITION,  (-40, 200, 100, 0.0))
 glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
 glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
@@ -31,13 +44,34 @@ glEnable(GL_LIGHTING)
 glEnable(GL_COLOR_MATERIAL)
 glEnable(GL_DEPTH_TEST)
 glShadeModel(GL_SMOOTH)           # most obj files expect to be smooth-shaded
-
 glActiveTexture(GL_TEXTURE0)
+
 
 
 # LOAD OBJECT AFTER PYGAME INIT
 
-obj = OBJ(filename, swapyz=True)
+obj0 = OBJ(attack0, swapyz=True)
+obj1 = OBJ(attack1, swapyz=True)
+obj2 = OBJ(attack2, swapyz=True)
+obj3 = OBJ(attack3, swapyz=True)
+obj4 = OBJ(attack4, swapyz=True)
+obj5 = OBJ(attack5, swapyz=True)
+obj6 = OBJ(attack6, swapyz=True)
+obj7 = OBJ(attack7, swapyz=True)
+
+boxObj = OBJ(box, swapyz=True)
+
+objArray = []
+
+objArray.append(obj0)
+objArray.append(obj1)
+objArray.append(obj2)
+objArray.append(obj3)
+objArray.append(obj4)
+objArray.append(obj5)
+objArray.append(obj6)
+objArray.append(obj7)
+
 #muchos obj cargados aca...
 #hacer funcion nombre de modelo nombre de funcion y cant de cuadrads
 clock = pygame.time.Clock()
@@ -79,11 +113,23 @@ while 1:
             if move:
                 tx += i
                 ty -= j
+        elif e.type == KEYUP:
+            for i in range(8):
+                print(i)
+                start_time = pygame.time.get_ticks()
+                time_since_enter = pygame.time.get_ticks() - start_time
+                
+                print(time_since_enter)
+                glCallList(objArray[i].gl_list)
+                pygame.display.flip()
+                #glDeleteLists(objArray[i].gl_list,0)
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
-    glBindTexture(GL_TEXTURE_2D, texID)
+    glBindTexture(GL_TEXTURE_2D, texID)    
+    #glBindTexture(GL_TEXTURE_2D, boxTexID)
+    
 
 
     # RENDER OBJECT
@@ -92,7 +138,13 @@ while 1:
     glRotate(rx, 0, 1, 0)
 
  
+    
+    glCallList(boxObj.gl_list)
+    
+    #glCallList(obj0.gl_list)
 
-    glCallList(obj.gl_list)
     pygame.display.flip()
+   
+   
+    
 
