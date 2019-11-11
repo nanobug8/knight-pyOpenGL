@@ -72,6 +72,7 @@ objArray.append(obj5)
 objArray.append(obj6)
 objArray.append(obj7)
 
+
 #muchos obj cargados aca...
 #hacer funcion nombre de modelo nombre de funcion y cant de cuadrads
 clock = pygame.time.Clock()
@@ -90,6 +91,7 @@ rx, ry = (-110,-10)
 tx, ty = (0,0)
 zpos = 42
 rotate = move = False
+sec = 0
 while 1:
     clock.tick(30)
     for e in pygame.event.get():
@@ -114,15 +116,21 @@ while 1:
                 tx += i
                 ty -= j
         elif e.type == KEYUP:
-            for i in range(8):
-                print(i)
-                start_time = pygame.time.get_ticks()
-                time_since_enter = pygame.time.get_ticks() - start_time
+        #for sec2 in range(8):
+            pygame.mixer.music.load('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight.mp3')
+            print(sec)
+            start_time = pygame.time.get_ticks()
+            time_since_enter = pygame.time.get_ticks() - start_time
+            #print(time_since_enter)
+            if(sec < 7):
+                glCallList(objArray[sec].gl_list)
                 
-                print(time_since_enter)
-                glCallList(objArray[i].gl_list)
+                pygame.mixer.music.play(0)
                 pygame.display.flip()
-                #glDeleteLists(objArray[i].gl_list,0)
+                sec+=1
+            else:
+                sec = 0
+            #glDeleteLists(objArray[i].gl_list,0)
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
@@ -139,9 +147,10 @@ while 1:
 
  
     
-    glCallList(boxObj.gl_list)
-    
+    #glCallList(boxObj.gl_list)
+
     #glCallList(obj0.gl_list)
+    glCallList(objArray[sec].gl_list)
 
     pygame.display.flip()
    
