@@ -9,16 +9,16 @@ from OpenGL.GLU import *
 from objloader_textures import *
 
 
-attack0 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_0.obj'
-attack1 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_1.obj'
-attack2 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_2.obj'
-attack3 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_3.obj'
-attack4 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_4.obj'
-attack5 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_5.obj'
-attack6 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_6.obj'
-attack7 = 'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight_attack_7.obj'
+attack0 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_0.obj'
+attack1 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_1.obj'
+attack2 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_2.obj'
+attack3 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_3.obj'
+attack4 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_4.obj'
+attack5 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_5.obj'
+attack6 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_6.obj'
+attack7 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_7.obj'
 
-box =  'C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/box_texturas.obj'
+box =  'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/box_texturas2.obj'
 
 
 
@@ -31,9 +31,9 @@ srf = pygame.display.set_mode(viewport, OPENGL | DOUBLEBUF)
 
 glEnable(GL_TEXTURE_2D)
 
-texID =  ReadTexture('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight.png')
+texID =  ReadTexture('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.png')
 
-boxTexID =  ReadTexture('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/box.png')
+boxTexID =  ReadTexture('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/box.png')
 
 
 glLightfv(GL_LIGHT0, GL_POSITION,  (-40, 200, 100, 0.0))
@@ -73,8 +73,6 @@ objArray.append(obj6)
 objArray.append(obj7)
 
 
-#muchos obj cargados aca...
-#hacer funcion nombre de modelo nombre de funcion y cant de cuadrads
 clock = pygame.time.Clock()
 glClearColor(1,1,1,1)
 
@@ -92,8 +90,12 @@ tx, ty = (0,0)
 zpos = 42
 rotate = move = False
 sec = 0
+animation = False
+start_time = 0
+
+
 while 1:
-    clock.tick(30)
+    clock.tick(10)
     for e in pygame.event.get():
         if e.type == QUIT:
             sys.exit()
@@ -117,27 +119,40 @@ while 1:
                 ty -= j
         elif e.type == KEYUP:
         #for sec2 in range(8):
-            pygame.mixer.music.load('C:/Users/jcamargo/Desktop/Matias/comp/knigth-pyOpenGL/knight.mp3')
-            print(sec)
-            start_time = pygame.time.get_ticks()
-            time_since_enter = pygame.time.get_ticks() - start_time
+            animation = True
+            pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
+            #print(sec)
+            
             #print(time_since_enter)
-            if(sec < 7):
-                glCallList(objArray[sec].gl_list)
-                
-                pygame.mixer.music.play(0)
-                pygame.display.flip()
-                sec+=1
-            else:
-                sec = 0
+            #if(sec < 7):
+                #glCallList(objArray[sec].gl_list)
+            start_time = pygame.time.get_ticks()
+
+            pygame.mixer.music.play(0)
+            #pygame.display.flip()
+            #sec+=1
+            #else:
+            #sec = 0
             #glDeleteLists(objArray[i].gl_list,0)
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
+
+    # RENDER OBJECT
+    glTranslate(tx/20., tx/20., 0)
+    glRotate(ry, 1, 0, 0)
+    glRotate(rx, 0, 1, 0)
+
+ 
+    glBindTexture(GL_TEXTURE_2D, boxTexID)
+
+    glCallList(boxObj.gl_list)
+
+    #glCallList(obj0.gl_list)
     glBindTexture(GL_TEXTURE_2D, texID)    
-    #glBindTexture(GL_TEXTURE_2D, boxTexID)
-    
+
+    glLoadIdentity()
 
 
     # RENDER OBJECT
@@ -145,13 +160,18 @@ while 1:
     glRotate(ry, 1, 0, 0)
     glRotate(rx, 0, 1, 0)
 
- 
-    
-    #glCallList(boxObj.gl_list)
-
-    #glCallList(obj0.gl_list)
     glCallList(objArray[sec].gl_list)
+    
 
+    if animation:
+        time_since_enter = pygame.time.get_ticks() - start_time
+        print(time_since_enter)
+        if time_since_enter >= 200:
+            sec +=1
+            start_time = pygame.time.get_ticks()
+        if sec == 7:
+            sec = 0
+            animation = False
     pygame.display.flip()
    
    
