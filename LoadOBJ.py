@@ -81,12 +81,14 @@ glClearColor(1,1,1,1)
 glMatrixMode(GL_PROJECTION)
 glLoadIdentity()
 width, height = viewport
-gluPerspective(90.0, width/float(height),1, 100.0)
+gluPerspective(90.0, width/float(height),1, 200.0)
 glEnable(GL_DEPTH_TEST)
 glMatrixMode(GL_MODELVIEW)
 
-rx, ry = (-110,-10)
+rx, ry = (-110,20)
+rxBox, ryBox = (60,40)
 tx, ty = (0,0)
+txBox, tyBox = (0,0)
 zpos = 42
 rotate = move = False
 sec = 0
@@ -102,10 +104,10 @@ while 1:
         elif e.type == KEYDOWN and e.key == K_ESCAPE:
             sys.exit()
         elif e.type == MOUSEBUTTONDOWN:
-            if e.button == 4: zpos = max(1, zpos-1)
-            elif e.button == 5: zpos += 1
-            elif e.button == 1: rotate = True
-            elif e.button == 3: move = True
+            #if e.button == 4: zpos = max(1, zpos-1)
+            #elif e.button == 5: zpos += 1
+            if e.button == 1: rotate = True
+            if e.button == 3: move = True
         elif e.type == MOUSEBUTTONUP:
             if e.button == 1: rotate = False
             elif e.button == 3: move = False
@@ -113,7 +115,7 @@ while 1:
             i, j = e.rel
             if rotate:
                 rx += i
-                ry += j
+                #ry += j
             if move:
                 tx += i
                 ty -= j
@@ -140,9 +142,9 @@ while 1:
 
 
     # RENDER OBJECT
-    glTranslate(tx/20., tx/20., 0)
-    glRotate(ry, 1, 0, 0)
-    glRotate(rx, 0, 1, 0)
+    glTranslate(tx/20., ty/20., 0)
+    glRotate(ryBox, 1, 0, 0)
+    glRotate(rxBox, 0, 1, 0)
 
  
     glBindTexture(GL_TEXTURE_2D, boxTexID)
