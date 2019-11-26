@@ -18,6 +18,16 @@ attack5 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_5
 attack6 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_6.obj'
 attack7 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_7.obj'
 
+walk0 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_0.obj'
+walk1 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_1.obj'
+walk2 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_2.obj'
+walk3 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_3.obj'
+walk4 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_4.obj'
+walk5 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_5.obj'
+
+
+
+
 box =  'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/box_texturas2.obj'
 
 
@@ -59,6 +69,14 @@ obj5 = OBJ(attack5, swapyz=True)
 obj6 = OBJ(attack6, swapyz=True)
 obj7 = OBJ(attack7, swapyz=True)
 
+wlk0 = OBJ(walk0, swapyz=True)
+wlk1 = OBJ(walk1, swapyz=True)
+wlk2 = OBJ(walk2, swapyz=True)
+wlk3 = OBJ(walk3, swapyz=True)
+wlk4 = OBJ(walk4, swapyz=True)
+wlk5 = OBJ(walk5, swapyz=True)
+
+
 boxObj = OBJ(box, swapyz=True)
 
 objArray = []
@@ -71,6 +89,21 @@ objArray.append(obj4)
 objArray.append(obj5)
 objArray.append(obj6)
 objArray.append(obj7)
+objArray.append(wlk0)
+objArray.append(wlk1)
+objArray.append(wlk2)
+objArray.append(wlk3)
+objArray.append(wlk4)
+objArray.append(wlk5)
+
+##wlkArray = []
+##
+##wlkArray.append(wlk0)
+##wlkArray.append(wlk1)
+##wlkArray.append(wlk2)
+##wlkArray.append(wlk3)
+##wlkArray.append(wlk4)
+##wlkArray.append(wlk5)
 
 
 clock = pygame.time.Clock()
@@ -92,7 +125,10 @@ txBox, tyBox = (0,0)
 zpos = 80
 rotate = move = False
 sec = 0
+step = 7
 animation = False
+walk = False
+stand = True
 start_time = 0
 
 kx,kz = (0,0)
@@ -124,24 +160,28 @@ while 1:
         elif e.type == pygame.KEYUP:
             if e.key == pygame.K_d:
                 kz += 5
+                walk = True
             elif e.key == pygame.K_a:
                 kz -= 5
+                walk = True
             elif e.key == pygame.K_w:
                           
                 kx += 5
-                animation = True
-                pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
+                walk = True
+                #pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
                 #print(sec)
             
                 #print(time_since_enter)
                 #if(sec < 7):
                 #glCallList(objArray[sec].gl_list)
+
                 start_time = pygame.time.get_ticks()
 
-                pygame.mixer.music.play(0)
+                #pygame.mixer.music.play(0)
                 
             elif e.key == pygame.K_s:
                 kx -= 5
+                walk = True
             elif e.key == pygame.K_p:
                 #for sec2 in range(8):
                 animation = True
@@ -191,10 +231,30 @@ while 1:
     glRotate(ry, 1, 0, 0)
     glRotate(rx, 0, 1, 0)
 
-    glCallList(objArray[sec].gl_list)
-    
+    #glCallList(objArray[sec].gl_list)
+    #sec = step
 
+
+    if walk:
+        stand = False
+        animation = False
+        
+        glCallList(objArray[step].gl_list)
+
+        time_since_enter = pygame.time.get_ticks() - start_time
+        
+        if time_since_enter >= 200:
+            step +=1
+            start_time = pygame.time.get_ticks()
+        if step == 13:
+            step = 7
+            walk = False
+            stand = True
+            
     if animation:
+        stand = False
+        glCallList(objArray[sec].gl_list)
+
         time_since_enter = pygame.time.get_ticks() - start_time
         #print(time_since_enter)
         if time_since_enter >= 200:
@@ -203,6 +263,13 @@ while 1:
         if sec == 7:
             sec = 0
             animation = False
+            stand = True
+
+    if stand:
+        glCallList(objArray[0].gl_list)
+        time_since_enter = pygame.time.get_ticks() - start_time
+        
+
     pygame.display.flip()
    
    
