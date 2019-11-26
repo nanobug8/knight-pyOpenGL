@@ -85,15 +85,17 @@ gluPerspective(90.0, width/float(height),1, 200.0)
 glEnable(GL_DEPTH_TEST)
 glMatrixMode(GL_MODELVIEW)
 
-rx, ry = (-110,20)
-rxBox, ryBox = (60,40)
+rx, ry = (-180,0)
+rxBox, ryBox = (45,15)
 tx, ty = (0,0)
 txBox, tyBox = (0,0)
-zpos = 42
+zpos = 80
 rotate = move = False
 sec = 0
 animation = False
 start_time = 0
+
+kx,kz = (0,0)
 
 
 while 1:
@@ -119,18 +121,39 @@ while 1:
             if move:
                 tx += i
                 ty -= j
-        elif e.type == KEYUP:
-        #for sec2 in range(8):
-            animation = True
-            pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
-            #print(sec)
+        elif e.type == pygame.KEYUP:
+            if e.key == pygame.K_d:
+                kz += 5
+            elif e.key == pygame.K_a:
+                kz -= 5
+            elif e.key == pygame.K_w:
+                          
+                kx += 5
+                animation = True
+                pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
+                #print(sec)
             
-            #print(time_since_enter)
-            #if(sec < 7):
+                #print(time_since_enter)
+                #if(sec < 7):
                 #glCallList(objArray[sec].gl_list)
-            start_time = pygame.time.get_ticks()
+                start_time = pygame.time.get_ticks()
 
-            pygame.mixer.music.play(0)
+                pygame.mixer.music.play(0)
+                
+            elif e.key == pygame.K_s:
+                kx -= 5
+            elif e.key == pygame.K_p:
+                #for sec2 in range(8):
+                animation = True
+                pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
+                #print(sec)
+            
+                #print(time_since_enter)
+                #if(sec < 7):
+                #glCallList(objArray[sec].gl_list)
+                start_time = pygame.time.get_ticks()
+
+                pygame.mixer.music.play(0)
             #pygame.display.flip()
             #sec+=1
             #else:
@@ -141,8 +164,8 @@ while 1:
     glLoadIdentity()
 
 
-    # RENDER OBJECT
-    glTranslate(tx/20., ty/20., 0)
+    # RENDER OBJECT BOX
+    glTranslate(tx/20., ty/20., -70)
     glRotate(ryBox, 1, 0, 0)
     glRotate(rxBox, 0, 1, 0)
 
@@ -151,14 +174,20 @@ while 1:
 
     glCallList(boxObj.gl_list)
 
-    #glCallList(obj0.gl_list)
+
+
+    
     glBindTexture(GL_TEXTURE_2D, texID)    
 
     glLoadIdentity()
 
 
-    # RENDER OBJECT
+    # RENDER OBJECT knight
     glTranslate(tx/20., ty/20., - zpos)
+    glRotate(ryBox, 1, 0, 0)
+    glRotate(rxBox, 0, 1, 0)
+    #otra traslacion
+    glTranslate(kx, -11.5, kz)
     glRotate(ry, 1, 0, 0)
     glRotate(rx, 0, 1, 0)
 
@@ -167,7 +196,7 @@ while 1:
 
     if animation:
         time_since_enter = pygame.time.get_ticks() - start_time
-        print(time_since_enter)
+        #print(time_since_enter)
         if time_since_enter >= 200:
             sec +=1
             start_time = pygame.time.get_ticks()
