@@ -17,14 +17,21 @@ attack4 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_4
 attack5 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_5.obj'
 attack6 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_6.obj'
 attack7 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_attack_7.obj'
-
+#7
 walk0 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_0.obj'
 walk1 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_1.obj'
 walk2 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_2.obj'
 walk3 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_3.obj'
 walk4 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_4.obj'
 walk5 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_run_5.obj'
-
+#13
+fallback0 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_death_fallback_0.obj'
+fallback1 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_death_fallback_1.obj'
+fallback2 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_death_fallback_2.obj'
+fallback3 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_death_fallback_3.obj'
+fallback4 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_death_fallback_4.obj'
+fallback5 = 'C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_death_fallback_5.obj'
+#19
 
 
 
@@ -77,6 +84,13 @@ wlk4 = OBJ(walk4, swapyz=True)
 wlk5 = OBJ(walk5, swapyz=True)
 
 
+flk0 = OBJ(fallback0, swapyz=True)
+flk1 = OBJ(fallback1, swapyz=True)
+flk2 = OBJ(fallback2, swapyz=True)
+flk3 = OBJ(fallback3, swapyz=True)
+flk4 = OBJ(fallback4, swapyz=True)
+flk5 = OBJ(fallback5, swapyz=True)
+
 boxObj = OBJ(box, swapyz=True)
 
 objArray = []
@@ -89,6 +103,7 @@ objArray.append(obj4)
 objArray.append(obj5)
 objArray.append(obj6)
 objArray.append(obj7)
+
 objArray.append(wlk0)
 objArray.append(wlk1)
 objArray.append(wlk2)
@@ -96,14 +111,13 @@ objArray.append(wlk3)
 objArray.append(wlk4)
 objArray.append(wlk5)
 
-##wlkArray = []
-##
-##wlkArray.append(wlk0)
-##wlkArray.append(wlk1)
-##wlkArray.append(wlk2)
-##wlkArray.append(wlk3)
-##wlkArray.append(wlk4)
-##wlkArray.append(wlk5)
+objArray.append(flk0)
+objArray.append(flk1)
+objArray.append(flk2)
+objArray.append(flk3)
+objArray.append(flk4)
+objArray.append(flk5)
+
 
 
 clock = pygame.time.Clock()
@@ -126,8 +140,10 @@ zpos = 80
 rotate = move = False
 sec = 0
 step = 7
+fstep = 13
 animation = False
 walk = False
+fallback = False
 stand = True
 start_time = 0
 
@@ -157,7 +173,7 @@ while 1:
             if move:
                 tx += i
                 ty -= j
-        elif e.type == pygame.KEYUP:
+        elif e.type == pygame.KEYDOWN:
             if e.key == pygame.K_d:
                 kz += 5
                 walk = True
@@ -167,8 +183,7 @@ while 1:
             elif e.key == pygame.K_w:
                           
                 kx += 5
-                walk = True
-                #pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight.mp3')
+                fallback = True
                 #print(sec)
             
                 #print(time_since_enter)
@@ -177,11 +192,13 @@ while 1:
 
                 start_time = pygame.time.get_ticks()
 
-                #pygame.mixer.music.play(0)
                 
             elif e.key == pygame.K_s:
                 kx -= 5
                 walk = True
+                pygame.mixer.music.load('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/Running.mp3')
+                pygame.mixer.music.play(0)
+
             elif e.key == pygame.K_p:
                 #for sec2 in range(8):
                 animation = True
@@ -249,6 +266,22 @@ while 1:
         if step == 13:
             step = 7
             walk = False
+            stand = True
+
+    if fallback:
+        stand = False
+        animation = False
+        
+        glCallList(objArray[step].gl_list)
+
+        time_since_enter = pygame.time.get_ticks() - start_time
+        
+        if time_since_enter >= 200:
+            fstep +=1
+            start_time = pygame.time.get_ticks()
+        if fstep == 19:
+            fstep = 13
+            fallback = False
             stand = True
             
     if animation:
