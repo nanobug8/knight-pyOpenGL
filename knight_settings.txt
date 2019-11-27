@@ -1,0 +1,54 @@
+p C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/
+
+
+
+a knight_attack_0.obj
+a knight_attack_1.obj
+a knight_attack_2.obj
+a knight_attack_3.obj
+a knight_attack_4.obj
+a knight_attack_5.obj
+a knight_attack_6.obj
+a knight_attack_7.obj
+
+w knight_run_0.obj
+w knight_run_1.obj
+w knight_run_2.obj
+w knight_run_3.obj
+w knight_run_4.obj
+w knight_run_5.obj
+
+w1 knight_fallback_0.obj
+w1 knight_fallback_1.obj
+w1 knight_fallback_2.obj
+w1 knight_fallback_3.obj
+w1 knight_fallback_4.obj
+w1 knight_fallback_5.obj
+#w1 knight_fallback_6.obj
+#w1 knight_fallback_7.obj
+#w1 knight_fallback_8.obj
+#w1 knight_fallback_9.obj
+#w1 knight_fallback_10.obj
+#w1 knight_fallback_11.obj
+#w1 knight_fallback_12.obj
+#w1 knight_fallback_13.obj
+#w1 knight_fallback_14.obj
+#w1 knight_fallback_15.obj
+#w1 knight_fallback_16.obj
+
+m1 box_texturas2.obj
+
+t1 knight.png
+t2 box.png
+
+ss Running.mp3
+ks knight.mp3
+sback back.mp3
+svoy voy.mp3
+
+GL_POSITION -40, 200, 100, 0.0
+GL_AMBIENT 0.2, 0.2, 0.2, 1.0
+GL_DIFFUSE 0.5, 0.5, 0.5, 1.0
+
+width 600
+height 800
