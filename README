@@ -1,8 +1,45 @@
-Este código está escrito en python. Utilizando la versión 3.7
+﻿Este código está escrito en python. Utilizando la versión 3.7
 
-Las librerías necesarias para poder ejecutarlo se instalarán ejecutando los siguientes comandos.
+Las librerías necesarias para poder ejecutarlo se instalarán ejecutando los siguientes comandos en una terminal
 
 pip install pyOpenGl 
 pip install pygame
 pip install numpy
 pip install Pillow
+
+######################
+#INSTRUCCIONES DE USO#
+######################
+
+Sera necesario descomprimir el archivo en un directorio y ejecutar el archivo LoadOBJ.py para que se pueda poner en ejecucion la animacion grafica.
+Una vez que se ejecuta se puede interactuar con la esccena de la siguiente forma.
+
+s >> avanza
+w >> retrocede
+click derecho >> mueve al caballero
+click izquierdo >> mueve la camara
+
+######################
+#####COMENTARIOS######
+######################
+A su vez hay un archivo llamado settings.txt en donde se encuentra la configuracion inicial de la escena.
+Tiene una composicion por "tags" donde:
+
+a >> obj de ataque
+w >> obj de run 
+w1 >> obj de retroceso
+
+m1 >> textura de la escena
+
+t1 y t2 >> png de las texturas asociadas
+
+tags de sonido asociado
+tags de viewport
+tags de la luz ambiente
+
+################
+#####EXTRAS#####
+################
+ - Sonido
+ - Archivo de Configuracion
+

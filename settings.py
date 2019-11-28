@@ -15,6 +15,9 @@ class Conf:
         self.height = 0
         self.sback = ''
         self.svoy = ''
+        self.light_position = []
+        self.light_ambient = []
+        self.light_diffuse = []
         
         for line in open(filename, "r"):
             if line.startswith('#'): continue
@@ -46,4 +49,22 @@ class Conf:
                 self.width = int(values[1])
             elif values[0] == 'height':
                 self.height = int(values[1])
+            elif values[0] == 'GL_POSITION':
+                self.light_position.append(values[0])
+                self.light_position.append(values[1])
+                self.light_position.append(values[2])
+                self.light_position.append(values[3])
+                self.light_position.append(values[4])                
+            elif values[0] == 'GL_AMBIENT':
+                self.light_ambient.append(values[0])
+                self.light_ambient.append(values[1])
+                self.light_ambient.append(values[2])
+                self.light_ambient.append(values[3])
+                self.light_ambient.append(values[4])
+            elif values[0] == 'GL_DIFFUSE':
+                self.light_diffuse.append(values[0])
+                self.light_diffuse.append(values[1])
+                self.light_diffuse.append(values[2])
+                self.light_diffuse.append(values[3])
+                self.light_diffuse.append(values[4])
                   

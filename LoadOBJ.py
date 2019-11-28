@@ -4,16 +4,14 @@ from pygame.locals import *
 from pygame.constants import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import math
 # IMPORT OBJECT LOADER
 from objloader_textures import *
 from settings import *
 
-
-settings = Conf('C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/knight_settings.txt')
-
+settings = Conf('./knight_settings.txt')
 
 box =  settings.path + settings.model1
-
 
 pygame.init()
 viewport = (settings.height,settings.width)
@@ -28,10 +26,15 @@ texID =  ReadTexture(settings.path + settings.tex1)
 
 boxTexID =  ReadTexture(settings.path + settings.tex2)
 
+if settings.light_position != None:
+    glLightfv(GL_LIGHT0, GL_POSITION,(float(settings.light_position[1]), float(settings.light_position[2]), float(settings.light_position[3]), float(settings.light_position[4])))
 
-glLightfv(GL_LIGHT0, GL_POSITION,  (-40, 200, 100, 0.0))
-glLightfv(GL_LIGHT0, GL_AMBIENT, (0.2, 0.2, 0.2, 1.0))
-glLightfv(GL_LIGHT0, GL_DIFFUSE, (0.5, 0.5, 0.5, 1.0))
+if settings.light_ambient != None:
+    glLightfv(GL_LIGHT0, GL_AMBIENT, (float(settings.light_ambient[1]), float(settings.light_ambient[2]), float(settings.light_ambient[3]), float(settings.light_ambient[4])))
+
+if settings.light_diffuse != None:
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, (float(settings.light_diffuse[1]), float(settings.light_diffuse[2]), float(settings.light_diffuse[3]), float(settings.light_diffuse[4])))
+    
 glEnable(GL_LIGHT0)
 glEnable(GL_LIGHTING)
 glEnable(GL_COLOR_MATERIAL)
@@ -39,15 +42,12 @@ glEnable(GL_DEPTH_TEST)
 glShadeModel(GL_SMOOTH)           # most obj files expect to be smooth-shaded
 glActiveTexture(GL_TEXTURE0)
 
-
-
 # LOAD OBJECT AFTER PYGAME INIT
 
 objArray = []
 
 #attacks
 for ite in range(len(settings.attack)):
-
     obj = OBJ(settings.path + settings.attack[ite], swapyz=True)
     objArray.append(obj)
 
@@ -59,17 +59,13 @@ for ite in range(len(settings.walk)):
 
 #movesFallback
 for ite in range(len(settings.fallback)):
-
     obj = OBJ(settings.path + settings.fallback[ite], swapyz=True)
     objArray.append(obj)
-
-
 
 boxObj = OBJ(box, swapyz=True)
 
 clock = pygame.time.Clock()
 glClearColor(1,1,1,1)
-
 
 glMatrixMode(GL_PROJECTION)
 glLoadIdentity()
@@ -97,7 +93,6 @@ start_time = 0
 
 kx,kz = (0,0)
 
-
 while 1:
     clock.tick(10)
     for e in pygame.event.get():
@@ -120,25 +115,21 @@ while 1:
                 tx += i
                 ty -= j
         elif e.type == pygame.KEYDOWN:
-            if e.key == pygame.K_d:
-                kz += 5
-                walk = True
-            elif e.key == pygame.K_a:
-                kz -= 5
-                walk = True
-            elif e.key == pygame.K_w:
-                kx += 5
+            if e.key == pygame.K_w:
+                kx -= (math.cos(math.radians(rx)))*5
+                kz += (math.sin(math.radians(rx)))*5
                 fallback = True
                 pygame.mixer.music.load(settings.path + settings.sound_back)
                 pygame.mixer.music.play(0)
                 
             elif e.key == pygame.K_s:
-##                pygame.mixer.music.load(settings.path + settings.sound_voy)
-##                pygame.mixer.music.play(0)
+                pygame.mixer.Sound(settings.path + settings.sound_voy).play()
                 walk = True
                 pygame.mixer.music.load(settings.path + settings.step_sound)
                 pygame.mixer.music.play(0)
-                kx -= 10
+                #kx -= 10
+                kx += (math.cos(math.radians(rx)))*10
+                kz -= (math.sin(math.radians(rx)))*10
             elif e.key == pygame.K_p:
                 animation = True
                 pygame.mixer.music.load(settings.path + settings.attack_sound)
@@ -147,13 +138,11 @@ while 1:
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
-
     # RENDER OBJECT BOX
     glTranslate(tx/20., ty/20., -70)
     glRotate(ryBox, 1, 0, 0)
     glRotate(rxBox, 0, 1, 0)
 
- 
     glBindTexture(GL_TEXTURE_2D, boxTexID)
 
     glCallList(boxObj.gl_list)
@@ -161,7 +150,6 @@ while 1:
     glBindTexture(GL_TEXTURE_2D, texID)    
 
     glLoadIdentity()
-
 
     # RENDER OBJECT knight
     glTranslate(tx/20., ty/20., - zpos)
@@ -171,7 +159,6 @@ while 1:
     glTranslate(kx, -11.5, kz)
     glRotate(ry, 1, 0, 0)
     glRotate(rx, 0, 1, 0)
-
 
     if walk:
         stand = False
@@ -222,9 +209,4 @@ while 1:
         glCallList(objArray[0].gl_list)
         time_since_enter = pygame.time.get_ticks() - start_time
         
-
     pygame.display.flip()
-   
-   
-    
-

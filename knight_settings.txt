@@ -1,7 +1,5 @@
 p C:/Users/Usuario/Documents/Compgra/V2/knigth-pyOpenGL/
 
-
-
 a knight_attack_0.obj
 a knight_attack_1.obj
 a knight_attack_2.obj
@@ -44,11 +42,12 @@ t2 box.png
 ss Running.mp3
 ks knight.mp3
 sback back.mp3
-svoy voy.mp3
-
-GL_POSITION -40, 200, 100, 0.0
-GL_AMBIENT 0.2, 0.2, 0.2, 1.0
-GL_DIFFUSE 0.5, 0.5, 0.5, 1.0
+svoy voy.wav
 
 width 600
 height 800
+
+GL_POSITION -40 200 100 0.0
+GL_AMBIENT 0.2 0.2 0.2 1.0
+GL_DIFFUSE 0.5 0.5 0.5 1.0
+
